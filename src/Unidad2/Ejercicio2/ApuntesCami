@@ -1,0 +1,9 @@
+Se debe definir una variable compartida por ambos hilos, por ello el tipo de variable será AtomicInteger
+que proporciona operaciones atómicas para enteros.
+Esto asegura que las operaciones de incremento sean seguras y no se produzcan condiciones de carrera.
+Esta variable inicializa en 0.
+
+Luego, al igual que en el ejercicio anterior, se define la clase Hilos que definirá como los hilos se comportarán individualmente.
+En este caso, cada hilo incrementará la variable compartida 10 veces.
+
+Al igual que en el ejercicio anterior, se llama al método start() en main para iniciar la ejecución de los hilos.

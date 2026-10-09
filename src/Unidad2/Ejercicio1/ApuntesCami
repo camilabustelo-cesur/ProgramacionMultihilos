@@ -1,0 +1,16 @@
+Para hacer el ejercicio debe usarse una clase Hilos donde se defina cómo se van a comportar los hilos.
+De acuerdo con las buenas prácticas de programación, se recomienda que la clase Hilos implemente la interfaz
+Runnable y que se cree un objeto Thread para cada hilo.
+
+En clase hilo de este ejercicio se  define el mensaje y cantidad de iteraciones dentro de atributos y
+se aportan en el constructor. El método que tendrá este hilo será run, que es el que se ejecuta
+cuando se llama al hilo en main con start(). [De acuerdo con buenas prácticas, usar start() y no run().
+
+En Main se definen los hilos a través del constructor, y se llama al método start() para que se ejecuten.
+
+¿Se mezclan las letras? Justifica el comportamiento observado
+Las letras se mezclan porque los hilos se ejecutan de manera concurrente, lo que significa que no hay un orden
+garantizado en la ejecución de los hilos. Cada hilo puede ser interrumpido en cualquier momento por el sistema
+operativo para permitir que otro hilo se ejecute. Esto provoca que las salidas de los hilos se entrelacen,
+resultando en una mezcla de caracteres en la salida final.
+
