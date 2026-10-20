@@ -18,5 +18,11 @@ el valor final dev.
 ### ¿Se obtienen los resultados esperados? 
 Aumenta progresivamente el número de incrementos hasta observar algún comportamiento “extraño”. Justifica los resultados obtenidos
 
-No se obtienen los resultados esperados, ya que se observa que si bien el valor final de v es 20, pero incrementa de manera desordenada, 
-es decir, no se incrementa de manera secuencial. Esto se debe a que las hebras están accediendo y modificando la variable compartida v de manera concurrente, lo que provoca condiciones de carrera.
+Con 10 incrementos por cada hilo se obtiene normalmente el resultado esperado (v = 20). 
+Los mensajes mostrados por pantalla aparecen en un orden aparentemente desordenado porque los hilos se ejecutan concurrentemente y 
+el sistema operativo decide cuándo se ejecuta cada uno.
+
+Cuando aumentamos la cantidad de inncrementos a valores mas altos, como por ejemplo 100000 por hilo, empiezan a aparecer resultados incorrectos. 
+El valor final de la variable compartida puede ser menor al esperado debido a las condiciones de carrera.
+No siempre se obtienen los resultados esperados cuando varios hilos acceden y modifican una variable compartida sin mecanismos 
+de sincronización. Este comportamiento se hace más evidente cuanto mayor es el número de incrementos realizados.

@@ -3,7 +3,19 @@ package Unidad2.Ejercicio2;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class VariableCompartida {
-    public AtomicInteger v = new AtomicInteger(0);
+    private int v;
+
+    public void set(int v) {
+        this.v = v;
+    }
+
+    public int get() {
+        return v;
+    }
+
+    public void inc() {
+        v++;
+    }
 }
 
 class Hilos implements Runnable {
@@ -13,24 +25,39 @@ class Hilos implements Runnable {
         this.variableCompartida = variableCompartida;
     }
 
+    @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
-            variableCompartida.v.incrementAndGet();
-            System.out.println("Hilo: " + Thread.currentThread().getName() + " - Valor de v: " + variableCompartida.v.get());
+        for (int i = 0; i < 100000; i++) {
+            variableCompartida.inc();
+            System.out.println(
+                    Thread.currentThread().getName() +
+                            " -> v = " + variableCompartida.get()
+            );
         }
     }
 }
 
 public class Main {
-    public static void main(String[] args) {
-        VariableCompartida variableCompartida = new VariableCompartida();
 
-        Thread hilo1 = new Thread(new Hilos(variableCompartida));
-        Thread hilo2 = new Thread(new Hilos(variableCompartida));
+    public static void main(String[] args) throws InterruptedException {
+
+        VariableCompartida variableCompartida =
+                new VariableCompartida();
+
+        Thread hilo1 = new Thread(
+                new Hilos(variableCompartida), "Hilo-1");
+
+        Thread hilo2 = new Thread(
+                new Hilos(variableCompartida), "Hilo-2");
 
         hilo1.start();
         hilo2.start();
 
+        hilo1.join();
+        hilo2.join();
 
+        System.out.println(
+                "Valor final de v: " +
+                        variableCompartida.get());
     }
 }
