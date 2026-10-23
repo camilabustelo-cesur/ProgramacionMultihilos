@@ -1,7 +1,5 @@
 package Unidad2.Ejercicio2;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 class VariableCompartida {
     private int v;
 
@@ -20,19 +18,17 @@ class VariableCompartida {
 
 class Hilos implements Runnable {
     private VariableCompartida variableCompartida;
+    private int veces;
 
-    public Hilos(VariableCompartida variableCompartida) {
+    public Hilos(VariableCompartida variableCompartida, int veces) {
         this.variableCompartida = variableCompartida;
+        this.veces = veces;
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < veces; i++) {
             variableCompartida.inc();
-            System.out.println(
-                    Thread.currentThread().getName() +
-                            " -> v = " + variableCompartida.get()
-            );
         }
     }
 }
@@ -41,23 +37,24 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        VariableCompartida variableCompartida =
-                new VariableCompartida();
+        // Aumentamos progresivamente el número de incrementos por hilo
+        int[] incrementos = {10, 1000, 100000, 1000000};
 
-        Thread hilo1 = new Thread(
-                new Hilos(variableCompartida), "Hilo-1");
+        for (int veces : incrementos) {
+            // Cada prueba empieza con una variable nueva a 0
+            VariableCompartida variableCompartida = new VariableCompartida();
+            variableCompartida.set(0);
 
-        Thread hilo2 = new Thread(
-                new Hilos(variableCompartida), "Hilo-2");
+            Thread hilo1 = new Thread(new Hilos(variableCompartida, veces), "Hilo-1");
+            Thread hilo2 = new Thread(new Hilos(variableCompartida, veces), "Hilo-2");
 
-        hilo1.start();
-        hilo2.start();
+            hilo1.start();
+            hilo2.start();
 
-        hilo1.join();
-        hilo2.join();
+            hilo1.join();
+            hilo2.join();
 
-        System.out.println(
-                "Valor final de v: " +
-                        variableCompartida.get());
+            System.out.println("Valor final de v: " + variableCompartida.get());
+        }
     }
 }
