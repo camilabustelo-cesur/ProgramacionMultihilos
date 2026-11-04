@@ -13,7 +13,7 @@ public class Main {
         int items = new Random().nextInt(97) +2;
 
         for (int i = 1; i <= items; i++) {
-            lista.add(new Random().nextInt(100));
+            lista.add(new Random().nextInt(100)+1);
         }
 
 
